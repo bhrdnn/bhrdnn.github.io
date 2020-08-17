@@ -19,69 +19,66 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox
 if (workbox)
   console.log(`Workbox berhasil dimuat`);
 
-workbox.precaching.precacheAndRoute([{
-    url: "tables.html",
-    revision: '2'
-  },
+workbox.precaching.precacheAndRoute([
   {
     url: "/manifest.json",
-    revision: '2'
+    revision: '21'
   },
   {
     url: "/favicon.ico",
-    revision: '1'
+    revision: '21'
   },
   {
     url: "/css/materialize.min.css",
-    revision: '1'
+    revision: '21'
   },
   {
     url: "/index.html",
-    revision: '1'
+    revision: '21'
   },
   {
     url: "/components/Provider.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/components/Standings.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/components/TopScorer.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/components/Fixtures.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/components/SavedMatch.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/js/nav.js",
-    revision: '1'
+    revision: '21'
   },
   {
     url: "/js/api.js",
-    revision: '2'
+    revision: '21'
   },
   {
     url: "/js/db.js",
-    revision: '3'
+    revision: '21'
   },
   {
     url: "/js/main.js",
-    revision: '2'
+    revision: '21'
   },
   {
     url: "/js/materialize.min.js",
-    revision: '1'
+    revision: '21'
   },
   {
     url: "/js/idb.js",
-    revision: '2'
+    revision: '21'
   },
 ]);
 

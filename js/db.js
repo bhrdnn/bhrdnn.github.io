@@ -35,7 +35,7 @@ function isSaved(id) {
   })
 }
 
-function GetSavedMatch() {
+function getSavedMatch() {
   return db.then(function (db) {
     let tx = db.transaction('savedmatch', 'readonly');
     let store = tx.objectStore('savedmatch');
