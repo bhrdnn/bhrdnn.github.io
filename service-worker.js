@@ -119,25 +119,25 @@ workbox.routing.registerRoute(
 //   workbox.strategies.staleWhileRevalidate()
 // );
 
-// workbox.routing.registerRoute(
-//   new RegExp('https://api.football-data.org/v2/'),
-//   workbox.strategies.networkFirst({
-//     cacheName: 'api'
-//   })
-// );
-
 workbox.routing.registerRoute(
-  ({url}) => url.origin === 'https://api.football-data.org',
-  new workbox.strategies.CacheFirst({
-    cacheName: 'football-data',
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponse(({
-        statuses: [0, 200, 404],
-        headers: {
-          'Access-Control-Expose-Headers': 'X-Is-Cacheable',
-          'X-Is-Cacheable': 'yes'
-        }
-      }))
-    ]
+  new RegExp('https://api.football-data.org/v2/'),
+  workbox.strategies.networkFirst({
+    cacheName: 'api'
   })
 );
+
+// workbox.routing.registerRoute(
+//   ({url}) => url.origin === 'https://api.football-data.org',
+//   new workbox.strategies.CacheFirst({
+//     cacheName: 'football-data',
+//     plugins: [
+//       new workbox.cacheableResponse.CacheableResponse(({
+//         statuses: [0, 200, 404],
+//         headers: {
+//           'Access-Control-Expose-Headers': 'X-Is-Cacheable',
+//           'X-Is-Cacheable': 'yes'
+//         }
+//       }))
+//     ]
+//   })
+// );
