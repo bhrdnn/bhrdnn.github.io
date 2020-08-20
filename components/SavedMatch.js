@@ -7,7 +7,7 @@ class SavedMatch extends HTMLElement {
     getSavedMatch().then((data) => {
       this.innerHTML = `
       <h5 style="font-weight:600; margin-top:40px">Saved Match</h5>
-      <a href="#" class="brand-logo" id="logo-container"><img src="img/icons/cl.png" alt="CL logo" style="width:13%"></a>
+      <a href="#" class="brand-logo" id="logo-container"><img src="img/icons/pl.png" alt="PL logo" style="width:20%"></a>
       `
       data.forEach((el, i) => {
         this.innerHTML += `

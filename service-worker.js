@@ -22,79 +22,63 @@ if (workbox)
 workbox.precaching.precacheAndRoute([
   {
     url: "/manifest.json",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/favicon.ico",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/css/materialize.min.css",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/index.html",
-    revision: '21'
-  },
-  {
-    url: "/pages/tables.html",
-    revision: '21'
-  },
-  {
-    url: "/pages/topscorer.html",
-    revision: '21'
-  },
-  {
-    url: "/pages/fixtures.html",
-    revision: '21'
-  },
-  {
-    url: "/pages/saved.html",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/components/Provider.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/components/Standings.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/components/TopScorer.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/components/Fixtures.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/components/SavedMatch.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/js/nav.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/js/api.js",
-    revision: '23'
+    revision: '87'
   },
   {
     url: "/js/db.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/js/main.js",
-    revision: '22'
+    revision: '87'
   },
   {
     url: "/js/materialize.min.js",
-    revision: '21'
+    revision: '87'
   },
   {
     url: "/js/idb.js",
-    revision: '21'
+    revision: '87'
   },
 ], {
   // Ignore all URL parameters.
@@ -114,30 +98,14 @@ workbox.routing.registerRoute(
   }),
 );
 
-// workbox.routing.registerRoute(
-//   new RegExp('/pages/'),
-//   workbox.strategies.staleWhileRevalidate()
-// );
+workbox.routing.registerRoute(
+  new RegExp('/pages/'),
+  workbox.strategies.staleWhileRevalidate()
+);
 
 workbox.routing.registerRoute(
   new RegExp('https://api.football-data.org/v2/'),
   workbox.strategies.networkFirst({
-    cacheName: 'api'
+    cacheName: 'football-data'
   })
 );
-
-// workbox.routing.registerRoute(
-//   ({url}) => url.origin === 'https://api.football-data.org',
-//   new workbox.strategies.CacheFirst({
-//     cacheName: 'football-data',
-//     plugins: [
-//       new workbox.cacheableResponse.CacheableResponse(({
-//         statuses: [0, 200, 404],
-//         headers: {
-//           'Access-Control-Expose-Headers': 'X-Is-Cacheable',
-//           'X-Is-Cacheable': 'yes'
-//         }
-//       }))
-//     ]
-//   })
-// );

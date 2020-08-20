@@ -28,7 +28,7 @@ function getTopscore() {
 
 function getFixture() {
   
-    return fetch('https://api.football-data.org/v2/competitions/2001/matches?status=SCHEDULED', {
+    return fetch('https://api.football-data.org/v2/competitions/2021/matches?dateFrom=2020-09-12&dateTo=2020-09-15&status=SCHEDULED', {
       headers: {
         'X-Auth-Token': token,
         'Origin': '',
