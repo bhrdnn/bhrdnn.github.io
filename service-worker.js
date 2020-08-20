@@ -14,7 +14,7 @@ self.addEventListener('push', function (event) {
   );
 });
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.3/workbox-sw.js');
 
 if (workbox)
   console.log(`Workbox berhasil dimuat`);
@@ -22,75 +22,91 @@ if (workbox)
 workbox.precaching.precacheAndRoute([
   {
     url: "/manifest.json",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/favicon.ico",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/css/materialize.min.css",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/index.html",
-    revision: '87'
+    revision: '21'
+  },
+  {
+    url: "/pages/tables.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/topscorer.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/fixtures.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/saved.html",
+    revision: '21'
   },
   {
     url: "/components/Provider.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/components/Standings.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/components/TopScorer.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/components/Fixtures.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/components/SavedMatch.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/js/nav.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/js/api.js",
-    revision: '87'
+    revision: '23'
   },
   {
     url: "/js/db.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/js/main.js",
-    revision: '87'
+    revision: '22'
   },
   {
     url: "/js/materialize.min.js",
-    revision: '87'
+    revision: '21'
   },
   {
     url: "/js/idb.js",
-    revision: '87'
+    revision: '21'
   },
 ], {
   // Ignore all URL parameters.
-  ignoreUrlParametersMatching: [/.*/]
+  ignoreURLParametersMatching: [/.*/]
 });
 
 workbox.routing.registerRoute(
   /\.(?:png|gif|jpg|jpeg|svg)$/,
-  workbox.strategies.cacheFirst({
+ new workbox.strategies.CacheFirst({
     cacheName: 'images',
     plugins: [
-      new workbox.expiration.Plugin({
+      new workbox.expiration.ExpirationPlugin({
         maxEntries: 60,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
       }),
@@ -99,13 +115,17 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  new RegExp('/pages/'),
-  workbox.strategies.staleWhileRevalidate()
-);
-
-workbox.routing.registerRoute(
-  new RegExp('https://api.football-data.org/v2/'),
-  workbox.strategies.networkFirst({
-    cacheName: 'football-data'
+  ({url}) => url.origin === 'https://api.football-data.org',
+  new workbox.strategies.CacheFirst({
+    cacheName: 'api-data',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponse(({
+        statuses: [0, 200, 404],
+        headers: {
+          'Access-Control-Expose-Headers': 'X-Is-Cacheable',
+          'X-Is-Cacheable': 'yes'
+        }
+      }))
+    ]
   })
 );
