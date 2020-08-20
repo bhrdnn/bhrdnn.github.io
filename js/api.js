@@ -17,10 +17,10 @@ function getFromCache(endpoint) {
 }
 
 function getStandings() {
-  return getFromCache('https://api.football-data.org/v2/competitions/2021/standings').then((json) => {
+  return getFromCache('https://api.football-data.org/v2/competitions/2021/standings?season=2019').then((json) => {
     return json
   }).catch(() => {
-    return fetch('https://api.football-data.org/v2/competitions/2021/standings', {
+    return fetch('https://api.football-data.org/v2/competitions/2021/standings?season=2019', {
       headers: {
         'X-Auth-Token': token,
         'Origin': '',
@@ -36,10 +36,10 @@ function getStandings() {
 }
 
 function getTopscore() {
-  return getFromCache('https://api.football-data.org/v2/competitions/2021/scorers').then((json) => {
+  return getFromCache('https://api.football-data.org/v2/competitions/2021/scorers?season=2019').then((json) => {
     return json
   }).catch(() => {
-    return fetch('https://api.football-data.org/v2/competitions/2021/scorers', {
+    return fetch('https://api.football-data.org/v2/competitions/2021/scorers?season=2019', {
       headers: {
         'X-Auth-Token': token,
         'Origin': '',

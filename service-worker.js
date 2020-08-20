@@ -37,6 +37,22 @@ workbox.precaching.precacheAndRoute([
     revision: '21'
   },
   {
+    url: "/pages/tables.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/topscorer.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/fixtures.html",
+    revision: '21'
+  },
+  {
+    url: "/pages/saved.html",
+    revision: '21'
+  },
+  {
     url: "/components/Provider.js",
     revision: '21'
   },
@@ -62,7 +78,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     url: "/js/api.js",
-    revision: '21'
+    revision: '22'
   },
   {
     url: "/js/db.js",
@@ -70,7 +86,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     url: "/js/main.js",
-    revision: '21'
+    revision: '22'
   },
   {
     url: "/js/materialize.min.js",
@@ -80,7 +96,10 @@ workbox.precaching.precacheAndRoute([
     url: "/js/idb.js",
     revision: '21'
   },
-]);
+], {
+  // Ignore all URL parameters.
+  ignoreUrlParametersMatching: [/.*/]
+});
 
 workbox.routing.registerRoute(
   /\.(?:png|gif|jpg|jpeg|svg)$/,
@@ -95,14 +114,30 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.registerRoute(
-  new RegExp('/pages/'),
-  workbox.strategies.staleWhileRevalidate()
-);
+// workbox.routing.registerRoute(
+//   new RegExp('/pages/'),
+//   workbox.strategies.staleWhileRevalidate()
+// );
+
+// workbox.routing.registerRoute(
+//   new RegExp('https://api.football-data.org/v2/'),
+//   workbox.strategies.networkFirst({
+//     cacheName: 'api'
+//   })
+// );
 
 workbox.routing.registerRoute(
-  new RegExp('https://api.football-data.org/v2/'),
-  workbox.strategies.networkFirst({
-    cacheName: 'api'
+  ({url}) => url.origin === 'https://api.football-data.org',
+  new workbox.strategies.CacheFirst({
+    cacheName: 'football-data',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponse(({
+        statuses: [0, 200, 404],
+        headers: {
+          'Access-Control-Expose-Headers': 'X-Is-Cacheable',
+          'X-Is-Cacheable': 'yes'
+        }
+      }))
+    ]
   })
 );

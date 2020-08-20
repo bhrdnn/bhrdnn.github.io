@@ -39,6 +39,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function subscribe(registration) {
+  navigator.serviceWorker.ready.then(() => {
   if (('PushManager' in window)) {
     registration.pushManager.subscribe({
       userVisibleOnly: true,
@@ -51,4 +52,5 @@ function subscribe(registration) {
         null, new Uint8Array(subscribe.getKey('auth')))));
     }).catch((e) => console.error(e));
   }
+});
 }
