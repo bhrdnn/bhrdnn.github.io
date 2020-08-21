@@ -14,7 +14,7 @@ self.addEventListener('push', function (event) {
   );
 });
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.3/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
 if (workbox)
   console.log(`Workbox berhasil dimuat`);
@@ -78,7 +78,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     url: "/js/api.js",
-    revision: '23'
+    revision: '24'
   },
   {
     url: "/js/db.js",
@@ -106,7 +106,7 @@ workbox.routing.registerRoute(
  new workbox.strategies.CacheFirst({
     cacheName: 'images',
     plugins: [
-      new workbox.expiration.ExpirationPlugin({
+      new workbox.expiration.Plugin({
         maxEntries: 60,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
       }),
@@ -115,17 +115,22 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  ({url}) => url.origin === 'https://api.football-data.org',
-  new workbox.strategies.CacheFirst({
-    cacheName: 'api-data',
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponse(({
-        statuses: [0, 200, 404],
-        headers: {
-          'Access-Control-Expose-Headers': 'X-Is-Cacheable',
-          'X-Is-Cacheable': 'yes'
-        }
-      }))
-    ]
-  })
+  new RegExp('https://api.football-data.org/v2/'),
+  workbox.strategies.staleWhileRevalidate()
 );
+
+// workbox.routing.registerRoute(
+//   ({url}) => url.origin === 'https://api.football-data.org',
+//   new workbox.strategies.CacheFirst({
+//     cacheName: 'api-data'
+//     // plugins: [
+//     //   new workbox.cacheableResponse.CacheableResponse(({
+//     //     statuses: [0, 200, 404],
+//     //     headers: {
+//     //       'Access-Control-Expose-Headers': 'X-Is-Cacheable',
+//     //       'X-Is-Cacheable': 'true'
+//     //     }
+//     //   }))
+//     // ]
+//   })
+// );
